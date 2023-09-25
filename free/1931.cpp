@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-int n;
+int n, ans;
 vector<pair<int, int>> v;
 
 bool compare(const pair<int, int> &a, const pair<int, int> &b)
@@ -27,8 +27,16 @@ int main(void)
 
   sort(v.begin(), v.end(), compare);
 
-  for (int i = 0; i < n; i++)
+  int cur = v[0].second;
+
+  for (int i = 1; i < v.size(); i++)
   {
-    cout << v[i].first << ' ' << v[i].second << '\n';
+    if (v[i].first >= cur)
+    {
+      cur = v[i].second;
+      ans++;
+    }
   }
+
+  cout << ans + 1;
 }
