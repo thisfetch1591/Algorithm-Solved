@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-vector<int> price;
+vector<int> prices;
 int main(void)
 {
   ios::sync_with_stdio(0), cin.tie(0);
@@ -12,20 +12,23 @@ int main(void)
   {
     int n;
     cin >> n;
-    int ans = 0;
+    long long ans = 0;
     for (int i = 0; i < n; i++)
     {
-      cin >> price[i];
+      int tmp;
+      cin >> tmp;
+      prices.push_back(tmp);
     }
 
-    // int max = price[n - 1];
-    // for (int i = n - 2; i >= 0; --i)
-    // {
-    //   if (price[i] > max)
-    //     max = price[i];
-    //   ans += max - price[i];
-    // }
-    // cout << ans << '\n';
-    // price.clear();
+    int cur = prices[n - 1];
+    for (int i = n - 2; i >= 0; i--)
+    {
+      if (cur > prices[i])
+        ans += cur - prices[i];
+      else
+        cur = prices[i];
+    }
+    cout << ans << '\n';
+    prices.clear();
   }
 }

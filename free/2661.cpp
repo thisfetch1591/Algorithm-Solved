@@ -1,46 +1,33 @@
 #include <bits/stdc++.h>
 using namespace std;
-int n;
-bool isCom = false;
-string str;
-bool check(string tmp)
-{
-  for (int i = 1; i <= tmp.size() / 2; i++)
-  {
-    if (tmp.substr(tmp.size() - i, i) == tmp.substr(tmp.size() - 2 * i, i))
-      return false;
-  }
-  return true;
-}
 
-void func(int k)
+int N;
+string result;
+bool finish = false;
+
+void solve(string tmp, int cnt)
 {
-  if (isCom)
+  if (finish)
     return;
-
-  if (n == k)
+  int size = tmp.size();
+  for (int i = 1; i <= size / 2; i++)
   {
-    cout << str;
-    isCom = true;
+    if (tmp.substr(size - i, i) == tmp.substr(size - 2 * i, i))
+      return;
+  }
+  if (cnt == N)
+  {
+    result = tmp;
     return;
   }
-
-  for (int i = 1; i <= 3; i++)
-  {
-    string tmp;
-    tmp.push_back('0' + i);
-    if (check(tmp))
-    {
-      str.push_back('0' + i);
-      func(k + 1);
-    }
-    else
-      tmp.pop_back();
-  }
+  solve(tmp + "1", cnt + 1);
+  solve(tmp + "2", cnt + 1);
+  solve(tmp + "3", cnt + 1);
 }
-int main(void)
+
+int main()
 {
-  ios::sync_with_stdio(0), cin.tie(0);
-  cin >> n;
-  func(0);
+  cin >> N;
+  solve("", 0);
+  cout << result;
 }
