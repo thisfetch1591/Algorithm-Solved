@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
-#define s first;
-#define e second;
+#define s first
+#define e second
 using namespace std;
 
 vector<pair<int, int>> v;
@@ -22,4 +22,16 @@ int main(void)
   }
 
   sort(v.begin(), v.end());
+
+  pq.push(v[0].e);
+
+  for (int i = 1; i < v.size(); i++)
+  {
+    pq.push(v[i].e);
+
+    if (v[i].s >= pq.top())
+      pq.pop();
+  }
+
+  cout << pq.size();
 }
