@@ -1,23 +1,24 @@
 #include <bits/stdc++.h>
+
 using namespace std;
-int n, k;
-long long arr[300002];
-vector<long long> v;
-int ans;
-int main(void) {
+
+int main() {
   ios::sync_with_stdio(0), cin.tie(0);
-  cin >> n >> k;
-  for (int i = 0; i < n; i++) {
-    cin >> arr[i];
-  }
-  sort(arr, arr + n);
-  for (int i = 0; i < n; i++) {
-    if (i == n - 1) break;
-    v.push_back(arr[i + 1] - arr[i]);
-  }
+
+  int N, K;
+  cin >> N >> K;
+  vector<long long int> v(N), cost(N - 1);
+
+  for (int i = 0; i < N; i++) cin >> v[i];
+
   sort(v.begin(), v.end());
-  for (int i = 0; i < k - 1; i++) {
-    ans += v[i];
-  }
+
+  for (int i = 1; i < N; i++) cost[i - 1] = v[i] - v[i - 1];
+
+  sort(cost.begin(), cost.end());
+
+  long long int ans = 0;
+  for (int i = 0; i < N - K; i++) ans += cost[i];
+
   cout << ans;
 }
