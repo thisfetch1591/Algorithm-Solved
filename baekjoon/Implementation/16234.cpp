@@ -1,86 +1,65 @@
-#include <string.h>
-
-#include <iostream>
-#include <queue>
-#define MAX 50
+#include <bits/stdc++.h>
 using namespace std;
+int N, L, R, ans;
+int board[52][52];
+int dx[4] = {-1, 1, 0, 0};
+int dy[4] = {0, 0, -1, 1};
+int main(void) {
+  ios::sync_with_stdio(0), cin.tie(0);
+  cin >> N >> L >> R;
 
-int n, l, r, sum = 0;
-int arr[MAX][MAX];
-bool visited[MAX][MAX];
-int dx[4] = {-1, 0, 1, 0};
-int dy[4] = {0, 1, 0, -1};
-vector<pair<int, int>> v;
-
-void dfs(int x, int y) {
-  v.push_back(make_pair(x, y));
-  visited[x][y] = true;
-  sum += arr[x][y];
-
-  for (int i = 0; i < 4; i++) {
-    int nx = x + dx[i];
-    int ny = y + dy[i];
-
-    if (nx < 0 || ny < 0 || nx >= n || ny >= n || visited[nx][ny]) continue;
-    if (abs(arr[nx][ny] - arr[x][y]) < l || abs(arr[nx][ny] - arr[x][y]) > r)
-      continue;
-    dfs(nx, ny);
-  }
-}
-
-int main() {
-  ios_base::sync_with_stdio(0);
-  cin.tie(0);
-  cout.tie(0);
-  int ans = 0;
-  cin >> n >> l >> r;
-
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-      cin >> arr[i][j];
-    }
-  }
-
-  while (1) {
-    memset(visited, false, sizeof(visited));
-    vector<pair<pair<int, int>, int>> record;
-    int cnt = 0;
-
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        if (!visited[i][j]) {
-          v.clear();
-          sum = 0;
-          dfs(i, j);
-
-          if (v.size() == 1) {
-            visited[i][j] = false;
-            cnt++;
-            continue;
+  for (int i = 0; i < N; i++)
+    for (int j = 0; j < N; j++) cin >> board[i][j];
+  bool isContinue = false;
+  do {
+    isContinue = false;
+    bool vis[N][N];
+    bool curVis[N][N];
+    queue<pair<int, int>> Q;
+    for (int x = 0; x < N; x++) memset(vis[x], false, sizeof(bool) * N);
+    for (int i = 0; i < N; i++) {
+      for (int j = 0; j < N; j++) {
+        if (!vis[i][j]) {
+          for (int x = 0; x < N; x++)
+            memset(curVis[x], false, sizeof(bool) * N);
+          int total = board[i][j];
+          int cnt = 1;
+          vis[i][j] = true;
+          curVis[i][j] = true;
+          Q.push({i, j});
+          vector<pair<int, int>> v;
+          v.push_back({i, j});
+          while (!Q.empty()) {
+            auto cur = Q.front();
+            Q.pop();
+            for (int dir = 0; dir < 4; dir++) {
+              int nx = cur.first + dx[dir];
+              int ny = cur.second + dy[dir];
+              if (nx < 0 || nx >= N || ny < 0 || ny >= N) continue;
+              if (abs(board[cur.first][cur.second] - board[nx][ny]) < L ||
+                  abs(board[cur.first][cur.second] - board[nx][ny]) > R)
+                continue;
+              if (curVis[nx][ny]) continue;
+              if (vis[nx][ny]) continue;
+              Q.push({nx, ny});
+              isContinue = true;
+              total += board[nx][ny];
+              cnt++;
+              vis[nx][ny] = true;
+              curVis[nx][ny] = true;
+              v.push_back({nx, ny});
+            }
           }
-
-          int num = sum / v.size();
-          for (int i = 0; i < v.size(); i++) {
-            record.push_back({{v[i].first, v[i].second}, num});
+          int resultTotal = total / cnt;
+          for (auto c : v) {
+            board[c.first][c.second] = resultTotal;
           }
         }
       }
     }
-
-    if (cnt == n * n) break;
-
-    for (int i = 0; i < record.size(); i++) {
-      int x = record[i].first.first;
-      int y = record[i].first.second;
-      int num = record[i].second;
-
-      arr[x][y] = num;
+    if (isContinue) {
+      ans++;
     }
-
-    ans++;
-  }
-
+  } while (isContinue);
   cout << ans;
-
-  return 0;
 }
