@@ -77,10 +77,55 @@
 //   return 0;
 // }
 
+// #include <bits/stdc++.h>
+// using namespace std;
+// int main() {
+//   vector<int> a = {1, 2, 3};
+//   cout << (int)a.size() - 10 << '\n';
+//   return 0;
+// }
+
+// #include <bits/stdc++.h>
+// using namespace std;
+
+// vector<int> v;
+
+// int main() {
+//   for (int i = 1; i <= 5; i++) v.push_back(i);
+//   for (int i = 0; i < 5; i++) {
+//     cout << i << "번째 요소 : " << *(v.begin() + i) << '\n';
+//     cout << &*(v.begin() + i) << '\n';
+//   }
+//   for (auto it = v.begin(); it != v.end(); it++) {
+//     cout << *it << ' ';
+//   }
+//   cout << '\n';
+//   for (vector<int>::iterator it = v.begin(); it != v.end(); it++) {
+//     cout << *it << ' ';
+//   }
+//   auto it = v.begin();
+//   advance(it, 3);
+//   cout << '\n';
+//   cout << *it << '\n';
+// }
+
 #include <bits/stdc++.h>
 using namespace std;
+int a[10];
+int b[10][10];
 int main() {
-  vector<int> a = {1, 2, 3};
-  cout << (int)a.size() - 10 << '\n';
+  fill(&a[0], &a[10], 100);
+
+  for (int i = 0; i < 10; i++) {
+    cout << a[i] << " ";
+  }
+  cout << '\n';
+  fill(&b[0][0], &b[9][10], 2);
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 10; j++) {
+      cout << b[i][j] << " ";
+    }
+    cout << '\n';
+  }
   return 0;
 }
